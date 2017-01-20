@@ -1,0 +1,42 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="TextH2DarkGrayColor">
+        <item name="android:textSize">@dimen/H2Font</item>
+        <item name="android:textColor">@color/DarkGrayColor</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextH3DarkGrayColor">
+        <item name="android:textSize">@dimen/H3Font</item>
+        <item name="android:textColor">@color/DarkGrayColor</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextH4DarkGrayColor">
+        <item name="android:textSize">@dimen/H4Font</item>
+        <item name="android:textColor">@color/DarkGrayColor</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextH5DarkGrayColor">
+        <item name="android:textSize">@dimen/H5Font</item>
+        <item name="android:textColor">@color/DarkGrayColor</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="NormalMargin">
+        <item name="android:layout_marginTop">@dimen/Normalpadding</item>
+        <item name="android:layout_marginLeft">@dimen/Smallpadding</item>
+        <item name="android:layout_marginRight">@dimen/Smallpadding</item>
+        <item name="android:paddingLeft">@dimen/Normalpadding</item>
+        <item name="android:paddingRight">@dimen/Normalpadding</item>
+    </style>
+</resources>

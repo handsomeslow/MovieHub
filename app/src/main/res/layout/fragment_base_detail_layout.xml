@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/base_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/WhiteColor"
+        android:paddingTop="@dimen/Normalpadding"
+        android:paddingBottom="@dimen/Normalpadding"
+        style="@style/NormalMargin">
+
+        <include layout="@layout/view_movie_baseinfo" />
+
+    </LinearLayout>
+
+    <com.jx.moviehub.widget.NormalTitleView
+        android:id="@+id/title_cast"
+        android:background="@color/WhiteColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/Normalpadding"
+        android:layout_marginLeft="@dimen/Smallpadding"
+        android:layout_marginRight="@dimen/Smallpadding"
+        android:layout_below="@id/base_info"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/casts_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:background="@color/WhiteColor"
+        android:layout_marginLeft="@dimen/Smallpadding"
+        android:layout_marginRight="@dimen/Smallpadding"
+        android:scrollbars="none"
+        android:layout_below="@id/title_cast"/>
+
+</RelativeLayout>
