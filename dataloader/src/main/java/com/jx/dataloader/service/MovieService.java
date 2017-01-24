@@ -1,6 +1,7 @@
 package com.jx.dataloader.service;
 
 
+import com.jx.dataloader.entity.CelebrityBean;
 import com.jx.dataloader.entity.MovieBaseSubjects;
 import com.jx.dataloader.entity.MovieListBean;
 import com.jx.dataloader.entity.MovieSubjects;
@@ -41,7 +42,13 @@ public interface MovieService {
             @Query("count")int count
     );
 
-
-//    @GET("subject/{id}/reviews")
-//    Observable<>
+    /**
+     * 获取演员信息
+     * @param id
+     * @return
+     */
+    @GET("celebrity/{id}")
+    Observable<CelebrityBean> getCelebrityDetail(
+            @Path("id") long id
+    );
 }
