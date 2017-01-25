@@ -8,6 +8,7 @@ import com.facebook.drawee.view.DraweeView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jx.dataloader.entity.CastsBean;
 import com.jx.moviehub.R;
+import com.jx.moviehub.activity.CelebrityDetailActivity;
 import com.jx.moviehub.utils.ImageLoader;
 
 /**
@@ -37,6 +38,6 @@ public class CastViewHolder extends BaseViewHolder<CastsBean> {
 
     @Override
     public void onItemClickListener(Context context, CastsBean model, int position, View itemView) {
-
+        context.startActivity(CelebrityDetailActivity.getIntent(context,Long.valueOf(model.getId())));
     }
 }
