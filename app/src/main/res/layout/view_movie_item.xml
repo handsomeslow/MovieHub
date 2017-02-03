@@ -46,6 +46,8 @@
                 android:layout_height="wrap_content"
                 android:text="电影标题"
                 android:textSize="23sp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:id="@+id/movie_title"/>
 
             <TextView

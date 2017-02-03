@@ -26,13 +26,20 @@ public class CastsInfoApapter extends BaseAdapter<CastsBean,CastViewHolder> {
 
     @Override
     public CastViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        context = parent.getContext();
         View view = View.inflate(parent.getContext(), R.layout.view_cast_info,null);
         CastViewHolder viewHolder = new CastViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(CastViewHolder holder, int position) {
+    public void onBindViewHolder(final CastViewHolder holder, final int position) {
         holder.bindView(list.get(position),position);
+        holder.getItemView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.onItemClickListener(context,list.get(position),position,v);
+            }
+        });
     }
 }

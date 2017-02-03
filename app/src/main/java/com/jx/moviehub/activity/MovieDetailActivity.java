@@ -7,16 +7,11 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.jx.dataloader.entity.MovieSubjects;
-import com.jx.dataloader.service.MethodsForMovie;
 import com.jx.moviehub.R;
 import com.jx.moviehub.fragment.MovieBaseInfoFragment;
 import com.jx.moviehub.fragment.MovieIntruduceFragment;
-import com.jx.moviehub.impl.CallDataback;
+import com.jx.moviehub.impl.CallMovieDataback;
 import com.jx.moviehub.utils.Content;
-
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Desc
@@ -43,7 +38,7 @@ public class MovieDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_movie_detail_layout);
         id = getIntent().getLongExtra(Content.EXTR_MOVIE_ID,0);
 
-        getMovieDetailData(id, new CallDataback<MovieSubjects>() {
+        getMovieDetailData(id, new CallMovieDataback<MovieSubjects>() {
             @Override
             public void onSuccess(MovieSubjects data) {
                 addBaseInfoFragment(data);

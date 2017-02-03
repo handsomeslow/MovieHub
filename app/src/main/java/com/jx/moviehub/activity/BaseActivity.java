@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.jx.dataloader.entity.MovieSubjects;
 import com.jx.dataloader.service.MethodsForMovie;
-import com.jx.moviehub.impl.CallDataback;
+import com.jx.moviehub.impl.CallMovieDataback;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -29,7 +29,7 @@ public class BaseActivity extends AppCompatActivity {
         return fm.findFragmentById(id);
     }
 
-    protected void getMovieDetailData(long id, final CallDataback callDataback) {
+    protected void getMovieDetailData(long id, final CallMovieDataback callDataback) {
         MethodsForMovie.getInstance().getMovieService().getMovieDetail(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

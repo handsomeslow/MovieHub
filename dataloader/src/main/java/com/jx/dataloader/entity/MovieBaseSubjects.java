@@ -1,5 +1,8 @@
 package com.jx.dataloader.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,7 +11,7 @@ import java.util.List;
  * Created by Jun on 2017/1/19.
  */
 
-public class MovieBaseSubjects {
+public class MovieBaseSubjects implements Parcelable {
     /**
      * rating : {"max":10,"average":6.9,"stars":"35","min":0}
      * genres : ["冒险","科幻"]
@@ -146,4 +149,56 @@ public class MovieBaseSubjects {
     public void setDirectors(List<DirectorsBean> directors) {
         this.directors = directors;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.rating, flags);
+        dest.writeString(this.title);
+        dest.writeInt(this.collect_count);
+        dest.writeString(this.original_title);
+        dest.writeString(this.subtype);
+        dest.writeString(this.year);
+        dest.writeParcelable(this.images, flags);
+        dest.writeString(this.alt);
+        dest.writeString(this.id);
+        dest.writeStringList(this.genres);
+        dest.writeTypedList(this.casts);
+        dest.writeTypedList(this.directors);
+    }
+
+    public MovieBaseSubjects() {
+    }
+
+    protected MovieBaseSubjects(Parcel in) {
+        this.rating = in.readParcelable(RatingBean.class.getClassLoader());
+        this.title = in.readString();
+        this.collect_count = in.readInt();
+        this.original_title = in.readString();
+        this.subtype = in.readString();
+        this.year = in.readString();
+        this.images = in.readParcelable(ImagesBean.class.getClassLoader());
+        this.alt = in.readString();
+        this.id = in.readString();
+        this.genres = in.createStringArrayList();
+        this.casts = in.createTypedArrayList(CastsBean.CREATOR);
+        this.directors = in.createTypedArrayList(DirectorsBean.CREATOR);
+    }
+
+    public static final Parcelable.Creator<MovieBaseSubjects> CREATOR = new Parcelable.Creator<MovieBaseSubjects>() {
+        @Override
+        public MovieBaseSubjects createFromParcel(Parcel source) {
+            return new MovieBaseSubjects(source);
+        }
+
+        @Override
+        public MovieBaseSubjects[] newArray(int size) {
+            return new MovieBaseSubjects[size];
+        }
+    };
 }

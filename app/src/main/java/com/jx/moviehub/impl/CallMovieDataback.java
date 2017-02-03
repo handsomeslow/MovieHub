@@ -5,7 +5,7 @@ package com.jx.moviehub.impl;
  * Created by Jun on 2017/1/20.
  */
 
-public interface CallDataback<T> {
+public interface CallMovieDataback<T> {
     void onSuccess(T data);
 
     void onFaild(String msg);

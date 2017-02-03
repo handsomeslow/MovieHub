@@ -18,6 +18,7 @@
         </activity>
 
         <activity android:name=".activity.MovieDetailActivity"/>
+        <activity android:name=".activity.CelebrityDetailActivity"/>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET"/>
