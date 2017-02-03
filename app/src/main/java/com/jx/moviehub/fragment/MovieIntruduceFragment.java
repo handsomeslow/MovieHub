@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jx.dataloader.entity.MovieSubjects;
 import com.jx.moviehub.R;
+import com.jx.moviehub.activity.PhotoActivity;
 import com.jx.moviehub.utils.Content;
 import com.jx.moviehub.utils.ImageLoader;
 
@@ -53,8 +54,14 @@ public class MovieIntruduceFragment extends BaseFragment {
         initView(movieSubjects);
     }
 
-    private void initView(MovieSubjects movieSubjects){
+    private void initView(final MovieSubjects movieSubjects){
         ImageLoader.getInstance().displayImage(movieSubjects.getImages().getLarge(), coverPic);
         introduce.setText(movieSubjects.getSummary());
+        coverPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(PhotoActivity.newIntent(getActivity(),movieSubjects.getImages().getLarge()));
+            }
+        });
     }
 }

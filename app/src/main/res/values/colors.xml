@@ -20,5 +20,7 @@
     <color name="DarkRedColor">#9b1417</color>
     <color name="DarkBlueColor">#2D4496</color>
 
+    <color name="black_overlay">#66000000</color>
+
 
 </resources>
