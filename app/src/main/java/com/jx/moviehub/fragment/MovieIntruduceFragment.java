@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -29,11 +30,15 @@ public class MovieIntruduceFragment extends BaseFragment {
     TextView introduce;
 
     MovieSubjects movieSubjects;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.movie_rating_bar)
+    RatingBar ratingBar;
 
     public static MovieIntruduceFragment newInstance(MovieSubjects movieSubjects) {
 
         Bundle args = new Bundle();
-        args.putParcelable(Content.EXTR_MOVIE_SUBJECT,movieSubjects);
+        args.putParcelable(Content.EXTR_MOVIE_SUBJECT, movieSubjects);
         MovieIntruduceFragment fragment = new MovieIntruduceFragment();
         fragment.setArguments(args);
         return fragment;
@@ -54,13 +59,15 @@ public class MovieIntruduceFragment extends BaseFragment {
         initView(movieSubjects);
     }
 
-    private void initView(final MovieSubjects movieSubjects){
+    private void initView(final MovieSubjects movieSubjects) {
         ImageLoader.getInstance().displayImage(movieSubjects.getImages().getLarge(), coverPic);
+        title.setText(movieSubjects.getTitle());
+        ratingBar.setRating((float) movieSubjects.getRating().getAverage()/2);
         introduce.setText(movieSubjects.getSummary());
         coverPic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(PhotoActivity.newIntent(getActivity(),movieSubjects.getImages().getLarge()));
+                startActivity(PhotoActivity.newIntent(getActivity(), movieSubjects.getImages().getLarge()));
             }
         });
     }

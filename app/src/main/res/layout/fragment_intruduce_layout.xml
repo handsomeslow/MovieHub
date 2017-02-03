@@ -5,16 +5,46 @@
     android:background="@color/WhiteColor"
     android:paddingBottom="@dimen/Normalpadding">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/cover_pic"
+    <RelativeLayout
+        android:id="@+id/cover_layout"
         android:layout_width="match_parent"
-        android:layout_height="300dp" />
+        android:layout_height="wrap_content">
+
+        <com.jx.moviehub.widget.CoverPhotoView
+            android:id="@+id/cover_pic"
+            android:layout_width="match_parent"
+            android:layout_height="300dp" />
+
+        <RatingBar
+            android:id="@+id/movie_rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/Mediumpadding"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/cover_pic"
+            android:stepSize="0.5"
+            android:max="10"
+            style="@style/Widget.AppCompat.RatingBar.Small"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/movie_rating_bar"
+            android:paddingRight="@dimen/Mediumpadding"
+            android:text="标题"
+            android:textSize="@dimen/H1Font"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/introduce"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/cover_pic"
+        android:layout_below="@id/cover_layout"
+        android:paddingLeft="@dimen/Smallpadding"
+        android:paddingRight="@dimen/Smallpadding"
         android:textAppearance="@style/TextH4DarkGrayColor"
         android:text="这是简介"/>
 </RelativeLayout>
