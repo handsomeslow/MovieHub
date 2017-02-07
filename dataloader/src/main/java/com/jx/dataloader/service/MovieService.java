@@ -42,6 +42,17 @@ public interface MovieService {
             @Query("count")int count
     );
 
+    @GET("top250")
+    Observable<MovieListBean> getTopMovie(
+            @Query("start")int start,
+            @Query("count")int count);
+
+    @GET("coming_soon")
+    Observable<MovieListBean> getMovieComingSoon(
+            @Query("start")int start,
+            @Query("count")int count
+    );
+
     /**
      * 获取演员信息
      * @param id

@@ -1,6 +1,9 @@
 package com.jx.moviehub;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.jx.dataloader.entity.MovieBaseSubjects;
@@ -8,10 +11,13 @@ import com.jx.dataloader.entity.MovieListBean;
 import com.jx.dataloader.entity.MovieSubjects;
 import com.jx.dataloader.service.MethodsForMovie;
 import com.jx.moviehub.activity.BaseActivity;
+import com.jx.moviehub.adapter.MainPagerAdapter;
 import com.jx.moviehub.fragment.MovieIntruduceFragment;
 import com.jx.moviehub.fragment.MovieListFragment;
 import com.jx.moviehub.impl.CallMovieDataback;
+import com.jx.moviehub.widget.CoordinatorTabLayout;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -19,65 +25,48 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends BaseActivity {
+    private ArrayList<MovieListFragment> movieListFragments;
+    private CoordinatorTabLayout coordinatorTabLayout;
+    private ViewPager viewPager;
+    private MainPagerAdapter pagerAdapter;
 
-    MovieIntruduceFragment movieIntruduceFragment;
-    MovieListFragment movieListFragment;
+    private int[] imageArray,colorArray;
+    private final String[] titles = {"正在热映","Top","即将上映"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_main_layout);
+        imageArray = new int[]{R.drawable.bg_android,
+                R.drawable.bg_ios,
+                R.drawable.bg_other};
 
-        getMovieInTheatersData();
+        colorArray = new int[]{
+                android.R.color.holo_blue_light,
+                android.R.color.holo_red_light,
+                android.R.color.holo_green_light};
 
-        getMovieDetailData(1764796, new CallMovieDataback<MovieSubjects>() {
-            @Override
-            public void onSuccess(MovieSubjects data) {
-                addMovieIntruduceFragment(data);
-            }
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(3);
 
-            @Override
-            public void onFaild(String msg) {
-                Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
-            }
-        });
+        addListFragments();
+
+        pagerAdapter = new MainPagerAdapter(getSupportFragmentManager(),movieListFragments,titles);
+        viewPager.setAdapter(pagerAdapter);
+
+        coordinatorTabLayout = (CoordinatorTabLayout) findViewById(R.id.tablayout);
+        coordinatorTabLayout.setImageArray(imageArray,colorArray)
+                .setUpWithViewPager(viewPager);
     }
 
-    private void addMovieIntruduceFragment(MovieSubjects data){
-        if (movieIntruduceFragment==null){
-            movieIntruduceFragment = MovieIntruduceFragment.newInstance(data);
-            addFragment(movieIntruduceFragment,R.id.introduce);
+    private void addListFragments(){
+        movieListFragments = new ArrayList<>();
+        for (int i =0;i<3;i++){
+            movieListFragments.add(MovieListFragment.newInstance(titles[i],i));
         }
     }
-
-    private void addListFragment(String title,List<MovieBaseSubjects> subjects){
-        if (movieListFragment==null){
-            movieListFragment = MovieListFragment.newInstance(title,subjects);
-            addFragment(movieListFragment,R.id.movie_list);
-        }
-    }
-
-    private void getMovieInTheatersData() {
-        MethodsForMovie.getInstance().getMovieService().getMovieInTheaters("上海", 0, 20)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MovieListBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MovieListBean movieList) {
-                        addListFragment(movieList.getTitle(),movieList.getSubjects());
-                    }
-                });
-    }
-
 
 }

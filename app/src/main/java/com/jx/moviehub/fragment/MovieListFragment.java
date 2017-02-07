@@ -40,14 +40,14 @@ public class MovieListFragment extends BaseFragment {
     @BindView(R.id.list_title)
     NormalTitleView listTitle;
 
+    private List<MovieBaseSubjects> subjectsList;
+    private String title;
+    private int type;
 
-    List<MovieBaseSubjects> subjectsList;
-    String title;
-
-    public static MovieListFragment newInstance() {
+    public static MovieListFragment newInstance(String title,int type) {
 
         Bundle args = new Bundle();
-
+        args.putInt(Content.EXTR_MOVIE_LIST_YTPE,type);
         MovieListFragment fragment = new MovieListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -75,28 +75,122 @@ public class MovieListFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        listTitle.setVisibility(View.GONE);
+        getMovieList();
+    }
+
+    private void initListView(List<MovieBaseSubjects> subjectsList){
         listAdapter = new MultiTypeListAdapter();
 
-        listView.setLayoutManager(new LinearLayoutManager(getActivity()) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
+//        listView.setLayoutManager(new LinearLayoutManager(getActivity()) {
+//            @Override
+//            public boolean canScrollVertically() {
+//                return false;
+//            }
+//        });
+        listView.setLayoutManager(new LinearLayoutManager(listView.getContext()));
         listAdapter.addAll(subjectsList);
         listView.setAdapter(listAdapter);
         listView.setFocusable(true);
 
-        listTitle.setTitle(title);
     }
 
     private void getData(){
         title = getArguments().getString(Content.EXTR_MOVIE_LIST_TITLE);
         subjectsList = getArguments().getParcelableArrayList(Content.EXTR_MOVIE_LIST);
+        type = getArguments().getInt(Content.EXTR_MOVIE_LIST_YTPE,1);
     }
 
     protected void initView(MovieListBean movieList) {
 
         listTitle.setTitle(movieList.getTitle());
     }
+
+
+    private void getMovieList(){
+        if (subjectsList!=null && subjectsList.size()>0){
+            initListView(subjectsList);
+            return;
+        }
+        switch (type){
+            case 0:
+                getMovieInTheatersData();
+                break;
+
+            case 1:
+                getMovieInTop250();
+                break;
+
+            case 2:
+                getMovieComing();
+                break;
+        }
+    }
+
+    private void getMovieInTheatersData() {
+        MethodsForMovie.getInstance().getMovieService().getMovieInTheaters("上海", 0, 20)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MovieListBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MovieListBean movieList) {
+                        initListView(movieList.getSubjects());
+                    }
+                });
+    }
+
+    private void getMovieInTop250(){
+        MethodsForMovie.getInstance().getMovieService().getTopMovie(0, 20)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MovieListBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MovieListBean movieList) {
+                        initListView(movieList.getSubjects());
+                    }
+                });
+    }
+
+    private void getMovieComing(){
+        MethodsForMovie.getInstance().getMovieService().getMovieComingSoon(0, 20)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MovieListBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MovieListBean movieList) {
+                        initListView(movieList.getSubjects());
+                    }
+                });
+    }
+
 }
