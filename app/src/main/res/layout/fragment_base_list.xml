@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/WhiteColor"
+        android:visibility="gone"
         android:layout_marginLeft="@dimen/Smallpadding"
         android:layout_marginRight="@dimen/Smallpadding"/>
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/Normalpadding"
         android:layout_marginLeft="@dimen/Smallpadding"
         android:layout_marginRight="@dimen/Smallpadding"
         android:id="@+id/list_view"/>

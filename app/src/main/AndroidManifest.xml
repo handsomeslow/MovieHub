@@ -21,12 +21,12 @@
         </activity>
         <activity android:name=".activity.MovieDetailActivity" />
         <activity android:name=".activity.CelebrityDetailActivity" />
-
         <activity
             android:name=".activity.PhotoActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_photo"
-            android:theme="@style/FullscreenTheme"/>
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".activity.SearchMovieActivity"></activity>
     </application>
 
 </manifest>
