@@ -13,4 +13,10 @@
 * [Fresco](https://github.com/facebook/fresco)
 
 Todo：
+* ~~大图样式~~
+* ~~增加演员信息界面~~
+* ~~首页改版~~
 * 丰富数据接口
+* 增加搜索功能
+* 增加底部TAB
+* 增加推荐界面
