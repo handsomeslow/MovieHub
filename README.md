@@ -13,6 +13,4 @@
 * [Fresco](https://github.com/facebook/fresco)
 
 Todo：
-* 首页封面大图
-* Add影人详情页
 * 丰富数据接口
