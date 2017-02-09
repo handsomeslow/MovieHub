@@ -62,4 +62,18 @@ public interface MovieService {
     Observable<CelebrityBean> getCelebrityDetail(
             @Path("id") long id
     );
+
+    /**
+     * 搜索电影
+     * @param title
+     * @param start
+     * @param count
+     * @return
+     */
+    @GET("search")
+    Observable<MovieListBean> searchMovie(
+            @Query("q")String title,
+            @Query("start")int start,
+            @Query("count")int count
+    );
 }
