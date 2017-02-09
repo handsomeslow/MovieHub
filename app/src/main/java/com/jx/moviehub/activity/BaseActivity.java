@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.jx.dataloader.entity.MovieListBean;
 import com.jx.dataloader.entity.MovieSubjects;
 import com.jx.dataloader.service.MethodsForMovie;
 import com.jx.moviehub.impl.CallMovieDataback;
@@ -50,6 +51,32 @@ public class BaseActivity extends AppCompatActivity {
                     public void onNext(MovieSubjects movieSubjects) {
                         if (callDataback!=null){
                             callDataback.onSuccess(movieSubjects);
+                        }
+                    }
+                });
+    }
+
+    protected void searchMovie(String query, final CallMovieDataback callDataback) {
+        MethodsForMovie.getInstance().getMovieService().searchMovie(query,0,5)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<MovieListBean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (callDataback!=null){
+                            callDataback.onFaild(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(MovieListBean movieListBean) {
+                        if (callDataback!=null){
+                            callDataback.onSuccess(movieListBean);
                         }
                     }
                 });

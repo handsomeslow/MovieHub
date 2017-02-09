@@ -84,21 +84,34 @@ public class MainActivity extends BaseActivity {
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(SearchMovieActivity.newIntent(MainActivity.this));
-            }
-        });
-        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionSelect(int position) {
-                return false;
-            }
-
-            @Override
-            public boolean onSuggestionClick(int position) {
-                return false;
+                //startActivity(SearchMovieActivity.newIntent(MainActivity.this));
+                Toast.makeText(MainActivity.this,"setOnSearchClickListener",Toast.LENGTH_SHORT).show();
             }
         });
 
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Toast.makeText(MainActivity.this,"onQueryTextSubmit",Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchMovie(newText, new CallMovieDataback() {
+                    @Override
+                    public void onSuccess(Object data) {
+
+                    }
+
+                    @Override
+                    public void onFaild(String msg) {
+
+                    }
+                });
+                return true;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 }
