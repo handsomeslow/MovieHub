@@ -1,7 +1,13 @@
 package com.jx.moviehub;
 
 import android.os.Bundle;
+import android.support.v4.view.MenuCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -11,6 +17,7 @@ import com.jx.dataloader.entity.MovieListBean;
 import com.jx.dataloader.entity.MovieSubjects;
 import com.jx.dataloader.service.MethodsForMovie;
 import com.jx.moviehub.activity.BaseActivity;
+import com.jx.moviehub.activity.SearchMovieActivity;
 import com.jx.moviehub.adapter.MainPagerAdapter;
 import com.jx.moviehub.fragment.MovieIntruduceFragment;
 import com.jx.moviehub.fragment.MovieListFragment;
@@ -69,4 +76,27 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_search:
+                //startActivity(SearchMovieActivity.newIntent(this));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        
+        return super.onCreateOptionsMenu(menu);
+    }
 }

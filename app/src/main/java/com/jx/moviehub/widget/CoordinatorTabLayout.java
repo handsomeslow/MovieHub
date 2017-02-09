@@ -23,7 +23,17 @@ import com.jx.moviehub.R;
 
 public class CoordinatorTabLayout extends CoordinatorLayout {
     private Context context;
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
     private Toolbar toolbar;
+
+    public ActionBar getActionBar() {
+        return actionBar;
+    }
+
     private ActionBar actionBar;
     private TabLayout tabLayout;
     private ImageView imageView;
