@@ -8,10 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.jx.dataloader.entity.MovieBaseSubjects;
 import com.jx.dataloader.entity.MovieListBean;
-import com.jx.dataloader.service.MethodsForMovie;
 import com.jx.moviehub.R;
 import com.jx.moviehub.adapter.MultiTypeListAdapter;
 import com.jx.moviehub.utils.Content;
@@ -22,9 +23,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Desc
@@ -39,25 +37,27 @@ public class MovieListFragment extends BaseListFragment {
     RecyclerView listView;
     @BindView(R.id.list_title)
     NormalTitleView listTitle;
+    @BindView(R.id.loading)
+    ProgressBar loading;
 
     private List<MovieBaseSubjects> subjectsList;
     private String title;
     private int type;
 
-    public static MovieListFragment newInstance(String title,int type) {
+    public static MovieListFragment newInstance(String title, int type) {
 
         Bundle args = new Bundle();
-        args.putInt(Content.EXTR_MOVIE_LIST_YTPE,type);
+        args.putInt(Content.EXTR_MOVIE_LIST_YTPE, type);
         MovieListFragment fragment = new MovieListFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static MovieListFragment newInstance(String title,List<MovieBaseSubjects> subjects) {
+    public static MovieListFragment newInstance(String title, List<MovieBaseSubjects> subjects) {
 
         Bundle args = new Bundle();
-        args.putString(Content.EXTR_MOVIE_LIST_TITLE,title);
-        args.putParcelableArrayList(Content.EXTR_MOVIE_LIST,new ArrayList<Parcelable>(subjects));
+        args.putString(Content.EXTR_MOVIE_LIST_TITLE, title);
+        args.putParcelableArrayList(Content.EXTR_MOVIE_LIST, new ArrayList<Parcelable>(subjects));
         MovieListFragment fragment = new MovieListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -79,7 +79,7 @@ public class MovieListFragment extends BaseListFragment {
         getMovieList();
     }
 
-    private void initListView(List<MovieBaseSubjects> subjectsList){
+    private void initListView(List<MovieBaseSubjects> subjectsList) {
         listAdapter = new MultiTypeListAdapter();
 
 //        listView.setLayoutManager(new LinearLayoutManager(getActivity()) {
@@ -95,10 +95,10 @@ public class MovieListFragment extends BaseListFragment {
 
     }
 
-    private void getData(){
+    private void getData() {
         title = getArguments().getString(Content.EXTR_MOVIE_LIST_TITLE);
         subjectsList = getArguments().getParcelableArrayList(Content.EXTR_MOVIE_LIST);
-        type = getArguments().getInt(Content.EXTR_MOVIE_LIST_YTPE,1);
+        type = getArguments().getInt(Content.EXTR_MOVIE_LIST_YTPE, 1);
     }
 
     protected void initView(MovieListBean movieList) {
@@ -107,12 +107,12 @@ public class MovieListFragment extends BaseListFragment {
     }
 
 
-    private void getMovieList(){
-        if (subjectsList!=null && subjectsList.size()>0){
+    private void getMovieList() {
+        if (subjectsList != null && subjectsList.size() > 0) {
             initListView(subjectsList);
             return;
         }
-        switch (type){
+        switch (type) {
             case 0:
                 movieListPresenter.getMovieInTheaters();
                 break;
@@ -127,10 +127,16 @@ public class MovieListFragment extends BaseListFragment {
         }
     }
 
+    @Override
+    public void showLoading() {
+        super.showLoading();
+        loading.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void showContent(MovieListBean data) {
         super.showContent(data);
         initListView(data.getSubjects());
+        loading.setVisibility(View.GONE);
     }
 }

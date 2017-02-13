@@ -25,6 +25,7 @@ public class MovieListPresenter implements MovieListContract.Presenter {
 
     @Override
     public void searchMovie(String query) {
+        view.showLoading();
         MethodsForMovie.getInstance().getMovieService().searchMovie(query,0,5)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -49,6 +50,7 @@ public class MovieListPresenter implements MovieListContract.Presenter {
 
     @Override
     public void getMovieInTheaters() {
+        view.showLoading();
         MethodsForMovie.getInstance().getMovieService().getMovieInTheaters("上海", 0, 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -72,6 +74,7 @@ public class MovieListPresenter implements MovieListContract.Presenter {
 
     @Override
     public void getTopMovie() {
+        view.showLoading();
         MethodsForMovie.getInstance().getMovieService().getTopMovie(0, 20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
