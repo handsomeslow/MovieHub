@@ -37,19 +37,7 @@ public class MovieDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail_layout);
         id = getIntent().getLongExtra(Content.EXTR_MOVIE_ID,0);
-
-        getMovieDetailData(id, new CallMovieDataback<MovieSubjects>() {
-            @Override
-            public void onSuccess(MovieSubjects data) {
-                addBaseInfoFragment(data);
-                addMovieIntruduceFragment(data);
-            }
-
-            @Override
-            public void onFaild(String msg) {
-                Toast.makeText(MovieDetailActivity.this,msg,Toast.LENGTH_SHORT).show();
-            }
-        });
+        movieDataPresenter.getMovieDetail(id);
 
     }
 
@@ -68,5 +56,15 @@ public class MovieDetailActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void loadMovieDetailSuccess(MovieSubjects data) {
+        super.loadMovieDetailSuccess(data);
+        initView(data);
+    }
 
+
+    private void initView(MovieSubjects data) {
+        addBaseInfoFragment(data);
+        addMovieIntruduceFragment(data);
+    }
 }

@@ -1,14 +1,22 @@
 package com.jx.moviehub.activity;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
+import com.jx.dataloader.entity.CelebrityBean;
 import com.jx.dataloader.entity.MovieListBean;
 import com.jx.dataloader.entity.MovieSubjects;
 import com.jx.dataloader.service.MethodsForMovie;
 import com.jx.moviehub.impl.CallMovieDataback;
+import com.jx.moviehub.presenter.BaseView;
+import com.jx.moviehub.presenter.CelebrityDataContract;
+import com.jx.moviehub.presenter.CelebrityDataPresenter;
+import com.jx.moviehub.presenter.MovieDataContract;
+import com.jx.moviehub.presenter.MovieDataPresenter;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -18,9 +26,20 @@ import rx.schedulers.Schedulers;
  * Created by Jun on 2017/1/18.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements MovieDataContract.View,CelebrityDataContract.View{
 
-    protected void addFragment(Fragment fragment,int wrap){
+    MovieDataPresenter movieDataPresenter;
+
+    CelebrityDataPresenter celebrityDataPresenter;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        movieDataPresenter = new MovieDataPresenter(this);
+        celebrityDataPresenter = new CelebrityDataPresenter(this);
+    }
+
+    protected void addFragment(Fragment fragment, int wrap){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(wrap,fragment).commitAllowingStateLoss();
     }
@@ -30,56 +49,25 @@ public class BaseActivity extends AppCompatActivity {
         return fm.findFragmentById(id);
     }
 
-    protected void getMovieDetailData(long id, final CallMovieDataback callDataback) {
-        MethodsForMovie.getInstance().getMovieService().getMovieDetail(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MovieSubjects>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
+    @Override
+    public void loadCelebritySuccess(CelebrityBean data) {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        if (callDataback!=null){
-                            callDataback.onFaild(e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onNext(MovieSubjects movieSubjects) {
-                        if (callDataback!=null){
-                            callDataback.onSuccess(movieSubjects);
-                        }
-                    }
-                });
     }
 
-    protected void searchMovie(String query, final CallMovieDataback callDataback) {
-        MethodsForMovie.getInstance().getMovieService().searchMovie(query,0,5)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MovieListBean>() {
-                    @Override
-                    public void onCompleted() {
+    @Override
+    public void showLoading() {
 
-                    }
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        if (callDataback!=null){
-                            callDataback.onFaild(e.getMessage());
-                        }
-                    }
+    @Override
+    public void loadMovieDetailSuccess(MovieSubjects data) {
 
-                    @Override
-                    public void onNext(MovieListBean movieListBean) {
-                        if (callDataback!=null){
-                            callDataback.onSuccess(movieListBean);
-                        }
-                    }
-                });
+    }
+
+    @Override
+    public void showError() {
+
     }
 
 }

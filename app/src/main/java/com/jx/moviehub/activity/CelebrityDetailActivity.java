@@ -62,7 +62,8 @@ public class CelebrityDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_celebrity_detail_layout);
         ButterKnife.bind(this);
         getData();
-        getCelebrityDetailData(celebrityId);
+//        getCelebrityDetailData(celebrityId);
+        celebrityDataPresenter.getCelebrityDetail(celebrityId);
     }
 
     private void initView(CelebrityBean celebrityBean) {
@@ -82,26 +83,11 @@ public class CelebrityDetailActivity extends BaseActivity {
         celebrityId = getIntent().getLongExtra(Content.EXTR_CELEBRITY_ID, 0);
     }
 
-    private void getCelebrityDetailData(long id) {
-        MethodsForMovie.getInstance().getMovieService().getCelebrityDetail(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<CelebrityBean>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(CelebrityBean celebrityBean) {
-                        initView(celebrityBean);
-                    }
-                });
+    @Override
+    public void loadCelebritySuccess(CelebrityBean data) {
+        super.loadCelebritySuccess(data);
+        initView(data);
     }
 
     private void addMovieListFragment(List<MovieBaseSubjects> subjects) {

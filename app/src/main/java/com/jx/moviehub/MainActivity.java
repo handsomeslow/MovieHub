@@ -98,17 +98,17 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                searchMovie(newText, new CallMovieDataback() {
-                    @Override
-                    public void onSuccess(Object data) {
-
-                    }
-
-                    @Override
-                    public void onFaild(String msg) {
-
-                    }
-                });
+//                searchMovie(newText, new CallMovieDataback() {
+//                    @Override
+//                    public void onSuccess(Object data) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFaild(String msg) {
+//
+//                    }
+//                });
                 return true;
             }
         });

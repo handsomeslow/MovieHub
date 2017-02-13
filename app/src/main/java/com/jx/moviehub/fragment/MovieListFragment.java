@@ -31,7 +31,7 @@ import rx.schedulers.Schedulers;
  * Created by Jun on 2017/1/19.
  */
 
-public class MovieListFragment extends BaseFragment {
+public class MovieListFragment extends BaseListFragment {
 
     MultiTypeListAdapter listAdapter;
 
@@ -114,83 +114,23 @@ public class MovieListFragment extends BaseFragment {
         }
         switch (type){
             case 0:
-                getMovieInTheatersData();
+                movieListPresenter.getMovieInTheaters();
                 break;
 
             case 1:
-                getMovieInTop250();
+                movieListPresenter.getTopMovie();
                 break;
 
             case 2:
-                getMovieComing();
+                movieListPresenter.getMovieComingSoon();
                 break;
         }
     }
 
-    private void getMovieInTheatersData() {
-        MethodsForMovie.getInstance().getMovieService().getMovieInTheaters("上海", 0, 20)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MovieListBean>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MovieListBean movieList) {
-                        initListView(movieList.getSubjects());
-                    }
-                });
+    @Override
+    public void showContent(MovieListBean data) {
+        super.showContent(data);
+        initListView(data.getSubjects());
     }
-
-    private void getMovieInTop250(){
-        MethodsForMovie.getInstance().getMovieService().getTopMovie(0, 20)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MovieListBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MovieListBean movieList) {
-                        initListView(movieList.getSubjects());
-                    }
-                });
-    }
-
-    private void getMovieComing(){
-        MethodsForMovie.getInstance().getMovieService().getMovieComingSoon(0, 20)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<MovieListBean>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MovieListBean movieList) {
-                        initListView(movieList.getSubjects());
-                    }
-                });
-    }
-
 }
