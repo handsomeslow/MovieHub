@@ -32,6 +32,9 @@ public class CastViewHolder extends BaseViewHolder<CastsBean> {
 
     @Override
     public void bindView(CastsBean model, int position) {
+        if (model == null || model.getAvatars() == null || model.getAvatars().getMedium() == null) {
+            return;
+        }
         ImageLoader.getInstance().displayImage(model.getAvatars().getMedium(),avatar);
         name.setText(model.getName());
     }
