@@ -23,10 +23,19 @@ public class MovieListPresenter implements MovieListContract.Presenter {
         compositeSubscription = new CompositeSubscription();
     }
 
+
+    private void showContent(MovieListBean movieListBean){
+        if (movieListBean != null && movieListBean.getCount() >0 && movieListBean.getSubjects().size() >0){
+            view.showContent(movieListBean);
+        } else {
+            view.ShowNoneContent();
+        }
+    }
+
     @Override
     public void searchMovie(String query) {
         view.showLoading();
-        MethodsForMovie.getInstance().getMovieService().searchMovie(query,0,5)
+        MethodsForMovie.getInstance().getMovieService().searchMovie(query,0,20)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<MovieListBean>() {
@@ -37,12 +46,12 @@ public class MovieListPresenter implements MovieListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        view.showError();
                     }
 
                     @Override
                     public void onNext(MovieListBean movieList) {
-                        view.showContent(movieList);
+                        showContent(movieList);
                     }
                 });
 
@@ -62,12 +71,12 @@ public class MovieListPresenter implements MovieListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        view.showError();
                     }
 
                     @Override
                     public void onNext(MovieListBean movieList) {
-                        view.showContent(movieList);
+                        showContent(movieList);
                     }
                 });
     }
@@ -86,12 +95,12 @@ public class MovieListPresenter implements MovieListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        view.showError();
                     }
 
                     @Override
                     public void onNext(MovieListBean movieList) {
-                        view.showContent(movieList);
+                        showContent(movieList);
                     }
                 });
     }
@@ -109,12 +118,12 @@ public class MovieListPresenter implements MovieListContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        view.showError();
                     }
 
                     @Override
                     public void onNext(MovieListBean movieList) {
-                        view.showContent(movieList);
+                        showContent(movieList);
                     }
                 });
     }

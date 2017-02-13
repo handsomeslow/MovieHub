@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity {
     private void addListFragments(){
         movieListFragments = new ArrayList<>();
         for (int i =0;i<3;i++){
-            movieListFragments.add(MovieListFragment.newInstance(titles[i],i));
+            movieListFragments.add(MovieListFragment.newInstance(null,i));
         }
     }
 
@@ -85,14 +85,14 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //startActivity(SearchMovieActivity.newIntent(MainActivity.this));
-                Toast.makeText(MainActivity.this,"setOnSearchClickListener",Toast.LENGTH_SHORT).show();
+
             }
         });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(MainActivity.this,"onQueryTextSubmit",Toast.LENGTH_SHORT).show();
+                startActivity(SearchMovieActivity.newIntent(MainActivity.this,query));
                 return true;
             }
 
@@ -109,6 +109,7 @@ public class MainActivity extends BaseActivity {
 //
 //                    }
 //                });
+
                 return true;
             }
         });

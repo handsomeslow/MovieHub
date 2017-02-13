@@ -12,4 +12,6 @@ public interface BaseView<T> {
     void showContent(T data);
 
     void showError();
+
+    void ShowNoneContent();
 }

@@ -39,15 +39,32 @@ public class MovieListFragment extends BaseListFragment {
     NormalTitleView listTitle;
     @BindView(R.id.loading)
     ProgressBar loading;
+    @BindView(R.id.nonecontent_view)
+    ImageView nonecontentView;
+    @BindView(R.id.bad_net)
+    ImageView badNet;
 
     private List<MovieBaseSubjects> subjectsList;
     private String title;
     private int type;
+    private String query;
 
     public static MovieListFragment newInstance(String title, int type) {
 
         Bundle args = new Bundle();
+        args.putString(Content.EXTR_MOVIE_LIST_TITLE, title);
         args.putInt(Content.EXTR_MOVIE_LIST_YTPE, type);
+        MovieListFragment fragment = new MovieListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static MovieListFragment newInstance(String title, int type, String query) {
+
+        Bundle args = new Bundle();
+        args.putString(Content.EXTR_MOVIE_LIST_TITLE, title);
+        args.putInt(Content.EXTR_MOVIE_LIST_YTPE, type);
+        args.putString(Content.EXTR_MOVIE_QUERY, query);
         MovieListFragment fragment = new MovieListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -93,12 +110,16 @@ public class MovieListFragment extends BaseListFragment {
         listView.setAdapter(listAdapter);
         listView.setFocusable(true);
 
+        if (title!=null){
+            initTitle(title);
+        }
     }
 
     private void getData() {
         title = getArguments().getString(Content.EXTR_MOVIE_LIST_TITLE);
         subjectsList = getArguments().getParcelableArrayList(Content.EXTR_MOVIE_LIST);
         type = getArguments().getInt(Content.EXTR_MOVIE_LIST_YTPE, 1);
+        query = getArguments().getString(Content.EXTR_MOVIE_QUERY);
     }
 
     protected void initView(MovieListBean movieList) {
@@ -106,6 +127,10 @@ public class MovieListFragment extends BaseListFragment {
         listTitle.setTitle(movieList.getTitle());
     }
 
+    private void initTitle(String title){
+        listTitle.setVisibility(View.VISIBLE);
+        listTitle.setTitle(String.format("搜索“%s”结果",query));
+    }
 
     private void getMovieList() {
         if (subjectsList != null && subjectsList.size() > 0) {
@@ -124,6 +149,9 @@ public class MovieListFragment extends BaseListFragment {
             case 2:
                 movieListPresenter.getMovieComingSoon();
                 break;
+
+            case 3:
+                movieListPresenter.searchMovie(query);
         }
     }
 
@@ -138,5 +166,18 @@ public class MovieListFragment extends BaseListFragment {
         super.showContent(data);
         initListView(data.getSubjects());
         loading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void ShowNoneContent() {
+        loading.setVisibility(View.GONE);
+        nonecontentView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showError() {
+        super.showError();
+        loading.setVisibility(View.GONE);
+        badNet.setVisibility(View.VISIBLE);
     }
 }
